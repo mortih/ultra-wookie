@@ -6,6 +6,7 @@ import random
 import glob
 
 path = "sounds"
+rolling_samples = 5
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
@@ -54,6 +55,8 @@ def distance():
 if __name__ == '__main__':
     cnt =0
     try:
+        samples = 0
+        avg = 0
         trumps = [f for f in glob.glob(path+"/*.wav", recursive=True)]
         motor.start(0)
         while True:
@@ -62,18 +65,22 @@ if __name__ == '__main__':
 
             wav = random.choice(trumps)
             cmd = "aplay {0}".format(wav)
-            print ("Measured Distance = %.1f cm cnt=%d wav=%s" % (dist,cnt,wav))
 		 
-            if (dist <= 64) :
+            if (samples != 0 and dist <= (avg - avg*.1)) :
                 GPIO.output(GPIO_LED, GPIO.HIGH)          
                 motor.ChangeDutyCycle(100)
                 os.system(cmd)
                 cnt+=1
-                
+
+            samples=(samples+1, rolling_samples)[samples==rolling_samples]
+            avg = (vg*(samples-1) + dist)/samples
+
+
+            print ("Measured Distance = %.1f cm avg=%d samples=%d cnt=%d wav=%s" % (dist,avg,samples, cnt,wav))
 
             time.sleep(0.200)
             GPIO.output(GPIO_LED, GPIO.LOW)          
- 
+            
         # Reset by pressing CTRL + C
     except KeyboardInterrupt:
         print("Measurement stopped by User")
