@@ -15,15 +15,15 @@ GPIO.setmode(GPIO.BCM)
 GPIO_LED=23
 GPIO_TRIGGER = 18
 GPIO_ECHO = 24
-GPIO_PWM = 12
+#GPIO_PWM = 12
 
 #set GPIO direction (IN / OUT)
 GPIO.setup(GPIO_LED, GPIO.OUT)
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
-GPIO.setup(GPIO_PWM, GPIO.OUT)
+#GPIO.setup(GPIO_PWM, GPIO.OUT)
  
-motor = GPIO.PWM(GPIO_PWM, 100)
+#motor = GPIO.PWM(GPIO_PWM, 100)
  
 def distance():
     # set Trigger to HIGH
@@ -58,9 +58,9 @@ if __name__ == '__main__':
         samples = 0
         avg = 0
         trumps = [f for f in glob.glob(path+"/*.wav", recursive=True)]
-        motor.start(0)
+ #       motor.start(0)
         while True:
-            motor.ChangeDutyCycle(0)
+ #           motor.ChangeDutyCycle(0)
             dist = distance()
 
             wav = random.choice(trumps)
@@ -68,7 +68,7 @@ if __name__ == '__main__':
 		 
             if (samples != 0 and dist <= (avg - avg*.1)) :
                 GPIO.output(GPIO_LED, GPIO.HIGH)          
-                motor.ChangeDutyCycle(100)
+ #               motor.ChangeDutyCycle(100)
                 os.system(cmd)
                 cnt+=1
 
