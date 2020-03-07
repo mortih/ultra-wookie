@@ -3,9 +3,9 @@ import RPi.GPIO as GPIO
 import time
 import os
 import random
+import glob
 
-trumps = ['sounds/1.wav', 'sounds/2.wav', 'sounds/3.wav', 'sounds/4.wav', 'sounds/TIE-Fire.wav', 'sounds/TIE-Fly1.wav', 'sounds/TIE-Fly2.wav', 'sounds/TIE-Fly3.wav', 'sounds/TIE-Fly4.wav', 'sounds/TIE-Fly5.wav', 'sounds/TIE-Fly6.wav']
-
+path = "sounds"
 
 #GPIO Mode (BOARD / BCM)
 GPIO.setmode(GPIO.BCM)
@@ -54,6 +54,7 @@ def distance():
 if __name__ == '__main__':
     cnt =0
     try:
+        trumps = [f for f in glob.glob(path+"/*.wav", recursive=True)]
         motor.start(0)
         while True:
             motor.ChangeDutyCycle(0)
