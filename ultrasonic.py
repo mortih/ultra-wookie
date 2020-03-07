@@ -4,7 +4,7 @@ import time
 import os
 import random
 
-trumps = ['1.wav', '3.wav', '3.wav', '4.wav']
+trumps = ['sounds/1.wav', 'sounds/2.wav', 'sounds/3.wav', 'sounds/4.wav', 'sounds/TIE-Fire.wav', 'sounds/TIE-Fly1.wav', 'sounds/TIE-Fly2.wav', 'sounds/TIE-Fly3.wav', 'sounds/TIE-Fly4.wav', 'sounds/TIE-Fly5.wav', 'sounds/TIE-Fly6.wav']
 
 
 #GPIO Mode (BOARD / BCM)
