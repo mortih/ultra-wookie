@@ -73,7 +73,7 @@ if __name__ == '__main__':
                 cnt+=1
 
             samples=(samples+1, rolling_samples)[samples==rolling_samples]
-            avg = (vg*(samples-1) + dist)/samples
+            avg = (avg*(samples-1) + dist)/samples
 
 
             print ("Measured Distance = %.1f cm avg=%d samples=%d cnt=%d wav=%s" % (dist,avg,samples, cnt,wav))
