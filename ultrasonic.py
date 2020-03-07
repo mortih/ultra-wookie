@@ -14,11 +14,15 @@ GPIO.setmode(GPIO.BCM)
 GPIO_LED=23
 GPIO_TRIGGER = 18
 GPIO_ECHO = 24
- 
+GPIO_PWM = 12
+
 #set GPIO direction (IN / OUT)
 GPIO.setup(GPIO_LED, GPIO.OUT)
 GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
+GPIO.setup(GPIO_PWM, GPIO.OUT)
+ 
+motor = GPIO.PWM(GPIO_PWM, 100)
  
 def distance():
     # set Trigger to HIGH
@@ -50,21 +54,23 @@ def distance():
 if __name__ == '__main__':
     cnt =0
     try:
+        motor.start(0)
         while True:
+            motor.ChangeDutyCycle(0)
             dist = distance()
 
             wav = random.choice(trumps)
-            print ("Measured Distance = %.1f cm cnt=%d wav=%s" % (dist,cnt,wav))
-            
             cmd = "aplay {0}".format(wav)
+            print ("Measured Distance = %.1f cm cnt=%d wav=%s" % (dist,cnt,wav))
 		 
             if (dist <= 64) :
-                time.sleep(2)
                 GPIO.output(GPIO_LED, GPIO.HIGH)          
+                motor.ChangeDutyCycle(100)
                 os.system(cmd)
                 cnt+=1
                 
-            time.sleep(1)
+
+            time.sleep(0.200)
             GPIO.output(GPIO_LED, GPIO.LOW)          
  
         # Reset by pressing CTRL + C
